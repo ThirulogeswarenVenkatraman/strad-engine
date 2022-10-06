@@ -1,0 +1,78 @@
+#include "TextureManager.h"
+#include "game.h"
+
+#define tSIZE 5
+
+TextureManager* TextureManager::textinst = nullptr;
+
+TextureManager* TextureManager::getInstance()
+{
+    if (textinst == nullptr)
+    {
+        textinst = new TextureManager();
+        return textinst;
+    }
+    return textinst;
+}
+
+bool TextureManager::Load(std::string fileName, std::string id)
+{
+    static SDL_Texture* tempTexture;
+    SDL_Surface* tempSurface = IMG_Load(fileName.c_str());
+    if (!tempSurface) {
+        fprintf(stderr, "Load Error: %s\n", IMG_GetError());
+        return false;
+    }
+    tempTexture = SDL_CreateTextureFromSurface(game::getInstance()->getRenderer(), tempSurface);
+    if (!tempTexture) {
+        fprintf(stderr, "Load Error: %s\n", IMG_GetError());
+        return false;
+    }
+    qtextures[id] = tempTexture;
+    /* don't free the Texture */
+    SDL_FreeSurface(tempSurface);
+    tempSurface = NULL;
+    tempTexture = NULL;
+    return true;
+}
+
+void TextureManager::clean(std::string textureName)
+{
+    if (qtextures[textureName] != NULL) {
+        SDL_Log("Freed %s", textureName.c_str());
+        SDL_DestroyTexture(qtextures[textureName]);
+    }
+    qtextures[textureName] = NULL;
+}
+
+void TextureManager::Draw(std::string id, int x, int y, int width, int height, SDL_RendererFlip eFlip)
+{
+    static SDL_Rect SrcRect;
+    static SDL_Rect DestRect;
+
+    SrcRect.x = 0;
+    SrcRect.y = 0;
+    DestRect.x = x;
+    DestRect.y = y;
+
+    SrcRect.w = width; DestRect.w = width * tSIZE;
+    SrcRect.h = height; DestRect.h = height * tSIZE;
+
+    SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
+}
+
+void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_RendererFlip eFlip)
+{
+    SDL_Rect SrcRect;
+    SDL_Rect DestRect;
+
+    SrcRect.x = width * currentFrame;
+    SrcRect.y = height * (currentRow - 1);
+    DestRect.x = x;
+    DestRect.y = y;
+
+    SrcRect.w = DestRect.w = width;
+    SrcRect.h = DestRect.h = height;
+
+    SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
+}

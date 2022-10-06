@@ -1,7 +1,6 @@
 #ifndef SE_GAME_H
 #define SE_GAME_H
 
-#include "iostream"
 #include "SDL2/SDL.h"
 
 class game

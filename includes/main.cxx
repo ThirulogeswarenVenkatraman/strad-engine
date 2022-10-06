@@ -1,12 +1,12 @@
-#include "include/game.h"
-#include "include/Timer.h"
+#include "game.h"
+#include "Timer.h"
 
 int main(int argc,char* argv[])
 { 
 	if (game::getInstance()->Init("Mad Engine"))
 	{
-		std::cout << "RefreshRate: " << game::getInstance()->getRefreshRate();
-		std::cout << "\nsec_per_update = " << 1.0f / (float)game::getInstance()->getRefreshRate();
+		fprintf(stdout, "RefreshRate: %d\n", game::getInstance()->getRefreshRate());
+		fprintf(stdout, "sec_per_update = %f\n", (1.0f / (float)game::getInstance()->getRefreshRate()));
 		const float FixedDeltaTime = 1.0f / (float)game::getInstance()->getRefreshRate();
 		float previousTime = 0.0f;
 		float lag = 0.0f;
@@ -27,8 +27,8 @@ int main(int argc,char* argv[])
 			game::getInstance()->Render();
 		}
 	}
-	else { std::cerr << "Game Init() failed!"; return -1; }
+	else { fprintf(stderr, "Game Init() failed!\n"); return -1; }
 	game::getInstance()->clean();
-	std::cout << "\nSubsystem Cleaned UP !";
+	fprintf(stdout, "Subsystem Cleaned UP !\n");
 	return 0;
 }

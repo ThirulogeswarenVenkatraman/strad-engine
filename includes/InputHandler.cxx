@@ -1,6 +1,6 @@
-#include "include/InputHandler.h"
+#include "InputHandler.h"
 
-#include "include/game.h" /* for setting the state */
+#include "game.h" /* for setting the state */
 
 InputHandler* InputHandler::InputHanderInst = nullptr;
 

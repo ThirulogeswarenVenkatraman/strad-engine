@@ -1,5 +1,7 @@
-#include "include/game.h"
-#include "include/InputHandler.h"
+#include "game.h"
+
+#include "TextureManager.h"
+#include "InputHandler.h"
 
 #define WINDOW_POS_X 1280
 #define WINDOW_POS_Y 720
@@ -72,6 +74,9 @@ void game::HandleEvents()
 
 void game::Update(float dt)
 {
+	if (InputHandler::getInstance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		this->setState(false);
+	}
 
 }
 
