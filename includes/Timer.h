@@ -1,7 +1,5 @@
-#ifndef SE_TIMER_H
-#define SE_TIMER_H
-
-#include "SDL2/SDL.h"
+#ifndef _TIMER__H
+#define _TIMER__H
 
 inline float InSec()
 {

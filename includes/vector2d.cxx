@@ -8,22 +8,22 @@ void Vector2::Invert() {
 
 float Vector2::magnitude() const 
 {
-	return seflow(x * x + y * y);
+	return strad(x * x + y * y);
 }
 
-seflow Vector2::sqrtmagnitude() const
+strad Vector2::sqrtmagnitude() const
 {
-	return seflow(sqrtf(x * x + y * y));
+	return strad(sqrtf(x * x + y * y));
 }
 
 void Vector2::normalize()
 {
-	seflow mag = magnitude();
+	strad mag = magnitude();
 
 	if (mag > 0)
 	{
-		this->x *= ((seflow)1) / mag;
-		this->y *= ((seflow)1) / mag;
+		this->x *= ((strad)1) / mag;
+		this->y *= ((strad)1) / mag;
 	}
 }
 
@@ -50,18 +50,18 @@ Vector2 Vector2::operator-(const Vector2& v) const
 }
 
 //multiplies vector by a scalar
-void Vector2::operator*=(const seflow scalar) 
+void Vector2::operator*=(const strad scalar) 
 {
 	this->x *= scalar;
 	this->y *= scalar;
 }
 
-Vector2 Vector2::operator*(const seflow scalar) const
+Vector2 Vector2::operator*(const strad scalar) const
 {
 	return Vector2(x * scalar, y * scalar);
 }
 
-void Vector2::addScaledVector(const Vector2& vec, const seflow scalar)
+void Vector2::addScaledVector(const Vector2& vec, const strad scalar)
 {
 	this->x += vec.x * scalar;
 	this->y += vec.y * scalar;
@@ -78,15 +78,15 @@ void Vector2::componentproductUpdate(const Vector2& vec)
 	this->y *= vec.y;
 }
 
-seflow Vector2::scalarProduct(const Vector2& vec) const
+strad Vector2::scalarProduct(const Vector2& vec) const
 {
-	return seflow(this->x * vec.x + this->y * vec.y);
+	return strad(this->x * vec.x + this->y * vec.y);
 }
 
 
-seflow Vector2::operator*(const Vector2& vec) const
+strad Vector2::operator*(const Vector2& vec) const
 {
-	return seflow(this->x * vec.x + this->y * vec.y);
+	return strad(this->x * vec.x + this->y * vec.y);
 }
 
 void Vector2::clear()

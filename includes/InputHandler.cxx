@@ -2,16 +2,10 @@
 
 #include "game.h" /* for setting the state */
 
-InputHandler* InputHandler::InputHanderInst = nullptr;
-
 InputHandler* InputHandler::getInstance()
 {
-	if (InputHanderInst == nullptr)
-	{ 
-		InputHanderInst = new InputHandler();
-		return InputHanderInst;
-	}
-	return InputHanderInst;
+	static InputHandler s_InputHandlerInst; // stack
+	return &s_InputHandlerInst;
 }
 
 InputHandler::InputHandler()
@@ -21,6 +15,10 @@ InputHandler::InputHandler()
 	{
 		mouseStates.push_back(false);
 	}
+}
+
+InputHandler::~InputHandler() {
+	fprintf(stdout, "Destroyed InputHandler\n");
 }
 
 bool InputHandler::getMouseButtonState(int buttton)

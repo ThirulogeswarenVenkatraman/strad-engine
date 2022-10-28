@@ -1,18 +1,20 @@
 #include "TextureManager.h"
-#include "game.h"
 
-#define tSIZE 5
+#include "game.h" /* renderer */
 
-TextureManager* TextureManager::textinst = nullptr;
+#define tSIZE 3
 
 TextureManager* TextureManager::getInstance()
-{
-    if (textinst == nullptr)
-    {
-        textinst = new TextureManager();
-        return textinst;
-    }
+{   
+    static TextureManager* textinst{ new TextureManager() };
     return textinst;
+}
+TextureManager::~TextureManager() {
+    for (auto textures : tm_registry) {
+        this->clean(textures);
+    }
+    tm_registry.clear();
+    fprintf(stdout, "Destroyed TextureManager\n");
 }
 
 bool TextureManager::Load(std::string fileName, std::string id)
@@ -28,6 +30,7 @@ bool TextureManager::Load(std::string fileName, std::string id)
         fprintf(stderr, "Load Error: %s\n", IMG_GetError());
         return false;
     }
+    tm_registry.push_back(id);
     qtextures[id] = tempTexture;
     /* don't free the Texture */
     SDL_FreeSurface(tempSurface);
@@ -71,8 +74,8 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     DestRect.x = x;
     DestRect.y = y;
 
-    SrcRect.w = DestRect.w = width;
-    SrcRect.h = DestRect.h = height;
+    SrcRect.w = width; DestRect.w = width * tSIZE;
+    SrcRect.h = height; DestRect.h = height * tSIZE;
 
     SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
 }

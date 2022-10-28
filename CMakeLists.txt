@@ -1,10 +1,10 @@
 
 cmake_minimum_required(VERSION 3.20.0)
 
-project(RADEngine LANGUAGES CXX)
+project(strad-engine LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-set(RAD_SRC includes/main.cxx includes/game.cxx includes/vector2d.cxx 
+set(RAD_SRC main.cxx logic.cxx includes/game.cxx includes/vector2d.cxx 
 includes/InputHandler.cxx includes/TextureManager.cxx)
 
 if(WIN32 AND MSVC)

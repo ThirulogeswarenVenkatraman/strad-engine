@@ -1,8 +1,8 @@
-#ifndef SE_INPUT_HANDLER_H
-#define SE_INPUT_HANDLER_H
+#ifndef _INPUT_HANDLER__H
+#define _INPUT_HANDLER__H
 
 #include "SDL2/SDL.h"
-#include "vector"
+#include <vector>
 
 enum mouseButtons {
 	LEFT = 0,
@@ -12,15 +12,14 @@ enum mouseButtons {
 
 class InputHandler
 {
-	const Uint8* keyStates;
-	std::vector<bool> mouseStates;
-	static InputHandler* InputHanderInst;
-
+	InputHandler();
 	void MouseButtonDown(SDL_Event& q_event);
 	void MouseButtonUp(SDL_Event& q_event);
 
+	const Uint8* keyStates;
+	std::vector<bool> mouseStates;
 public:
-	InputHandler();
+	~InputHandler();
 	static InputHandler* getInstance();
 	void EventUpdater();
 
