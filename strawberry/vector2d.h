@@ -4,11 +4,12 @@
 typedef float strad;
 
 class Vector2 {
+public:
 	strad x;
 	strad y;
-public:
-	Vector2() : x(0.0f), y(0.0f) { }
-	Vector2(strad xx, strad yy) : x(xx),y(yy) { }
+	Vector2() : x{ 0.0f }, y{ 0.0f } { }
+	Vector2(strad ss) : Vector2{ ss, ss } { }
+	Vector2(strad xx, strad yy) : x{ xx }, y{ yy } { }
 
 	void Invert();
 	strad magnitude() const;

@@ -1,6 +1,6 @@
-#include "includes/game.h"
-#include "includes/InputHandler.h"
-#include "includes/TextureManager.h"
+#include "strawberry/game.h"
+#include "strawberry/InputHandler.h"
+#include "strawberry/TextureManager.h"
 
 void game::Start()
 {
