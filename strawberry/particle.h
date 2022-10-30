@@ -6,7 +6,7 @@
 
 #include "vector2d.h"
 
-class particle { // point masses
+class Particle { // point masses
 	Vector2 position;
 	Vector2 velocity;
 	Vector2 acceleration;
@@ -18,6 +18,8 @@ class particle { // point masses
 public:
 	void Integrator(strad delta);
 
+	strad getMass() { return InverseMass; }
+
 	void SetPosition(strad x, strad y);
 	void SetVelocity(strad x, strad y);
 	void SetAcceleration(strad x, strad y);
@@ -27,6 +29,14 @@ public:
 
 	void ClearAccumulator() { ForceAccumulator.clear(); }
 	void AddForce(const Vector2& force);
+	bool isStaticBody()
+	{
+		if (InverseMass > 0.0f)
+		{
+			return true;
+		}
+		else { return false; }
+	}
 };
 
 #endif 

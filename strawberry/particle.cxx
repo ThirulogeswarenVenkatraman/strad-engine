@@ -1,7 +1,8 @@
 #include "particle.h"
+//#include "pfGenerator.h"
 #include "math.h"
 
-void particle::Integrator(strad delta)
+void Particle::Integrator(strad delta)
 {
 	if (InverseMass <= 0.0f) {
 		return;
@@ -13,6 +14,7 @@ void particle::Integrator(strad delta)
 	position.addScaledVector(velocity, delta);
 
 	Vector2 ResultingAcceleration{ acceleration };
+	//ParticleForceRegistry::UpdateForces(delta);
 	/* updating linear velocity */
 	velocity.addScaledVector(ResultingAcceleration, delta);
 
@@ -21,37 +23,37 @@ void particle::Integrator(strad delta)
 	this->ClearAccumulator();
 }
 
-void particle::SetPosition(strad x, strad y)
+void Particle::SetPosition(strad x, strad y)
 {
 	this->position.x = { x };
 	this->position.y = { y };
 }
 
-void particle::SetVelocity(strad x, strad y)
+void Particle::SetVelocity(strad x, strad y)
 {
 	this->velocity.x = { x };
 	this->velocity.y = { y };
 }
 
-void particle::SetAcceleration(strad x, strad y)
+void Particle::SetAcceleration(strad x, strad y)
 {
 	this->acceleration.x = { x };
 	this->acceleration.y = { y };
 }
 
-void particle::SetDamping(strad dampingFactor)
+void Particle::SetDamping(strad dampingFactor)
 {
 	this->drag = { dampingFactor };
 }
 
-void particle::SetMass(strad mass)
+void Particle::SetMass(strad mass)
 {
 	if (mass <= 0.0) return;
 
 	this->InverseMass = { ((strad)1.0 / mass) };
 }
 
-void particle::AddForce(const Vector2& force)
+void Particle::AddForce(const Vector2& force)
 {
 	ForceAccumulator += force;
 }

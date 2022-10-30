@@ -4,14 +4,16 @@ cmake_minimum_required(VERSION 3.20.0)
 project(strad-engine LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-set(StradSrc main.cxx logic.cxx 
+set(StradSrc main.cxx logic.cxx BallDemo.cxx
 strawberry/game.cxx 
 strawberry/InputHandler.cxx 
 strawberry/TextureManager.cxx
 
 strawberry/vector2d.cxx
 
-strawberry/particle.cxx)
+strawberry/particle.cxx
+#strawberry/pfGenerator.cxx
+)
 
 if(WIN32 AND MSVC)
 	find_package(SDL2 CONFIG REQUIRED)
