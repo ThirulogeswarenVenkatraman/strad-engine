@@ -9,7 +9,7 @@ class Ball {
 	GravityGenerator GravityGen;
 public:
 	Ball(strad gg);
-
+	~Ball();
 	void UpdateBall(float delta);
 	void RenderBall();
 };

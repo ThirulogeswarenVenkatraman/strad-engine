@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "vector2d.h"
+#include "float.h"
 
 class Particle { // point masses
 	Vector2 position;
@@ -18,7 +19,9 @@ class Particle { // point masses
 public:
 	void Integrator(strad delta);
 
-	strad getMass() { return InverseMass; }
+	strad getX() { return position.x; }
+	strad getY() { return position.y; }
+	strad getMass();
 
 	void SetPosition(strad x, strad y);
 	void SetVelocity(strad x, strad y);
@@ -29,14 +32,7 @@ public:
 
 	void ClearAccumulator() { ForceAccumulator.clear(); }
 	void AddForce(const Vector2& force);
-	bool isStaticBody()
-	{
-		if (InverseMass > 0.0f)
-		{
-			return true;
-		}
-		else { return false; }
-	}
+	bool isStaticBody();
 };
 
 #endif 

@@ -12,7 +12,7 @@ strawberry/TextureManager.cxx
 strawberry/vector2d.cxx
 
 strawberry/particle.cxx
-#strawberry/pfGenerator.cxx
+strawberry/pfGenerator.cxx
 )
 
 if(WIN32 AND MSVC)

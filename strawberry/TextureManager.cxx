@@ -2,7 +2,7 @@
 
 #include "game.h" /* renderer */
 
-#define tSIZE 1
+#define tSIZE 5
 
 TextureManager* TextureManager::getInstance()
 {   

@@ -1,27 +1,36 @@
 #include "pfGenerator.h"
 
-void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* pfGen)
+ParticleForceRegistry* ParticleForceRegistry::getInstance()
 {
-	ParticleForceRegistry::ParticleForceRegistration reg;
-	reg.particle = { particle };
-	reg.pforceGen = { pfGen };
-	registrations.push_back(reg);
+	static ParticleForceRegistry* heapPFRegistry{ new ParticleForceRegistry() };
+	return heapPFRegistry;
 }
 
-void ParticleForceRegistry::remove(Particle* particle, ParticleForceGenerator* pfGen)
-{
-	
-}
-
-void ParticleForceRegistry::clear()
-{
+ParticleForceRegistry::~ParticleForceRegistry() {
 	registrations.clear();
+	fprintf(stdout, "Destroyed ParticleForceRegistry\n");
 }
 
 void ParticleForceRegistry::UpdateForces(strad delta)
 {
-	Registry::iterator i{ registrations.begin() };
+	std::vector<pfGenCombo>::iterator i{ registrations.begin() };
 	for (; i != registrations.end(); i++) {
 		i->pforceGen->UpdateForce(i->particle, delta);
 	}
+}
+
+void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator* pfGen)
+{
+	ParticleForceRegistry::pfGenCombo reg;
+	reg.particle = { particle };
+	reg.pforceGen = { pfGen };
+	registrations.push_back(reg);
+}
+/*
+	//	Gravity 
+*/
+void GravityGenerator::UpdateForce(Particle* particle, strad delta)
+{
+	//if (!particle->isStaticBody()) { return; }
+	particle->AddForce(Gravity * particle->getMass());
 }

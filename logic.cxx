@@ -25,5 +25,6 @@ void game::FreeResrc()
 {
 	/* heap managers */
 	delete ballOne;
+	delete ParticleForceRegistry::getInstance();
 	delete TextureManager::getInstance();
 }
