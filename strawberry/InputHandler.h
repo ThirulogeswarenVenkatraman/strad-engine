@@ -25,6 +25,8 @@ public:
 
 	bool getMouseButtonState(int button);
 	bool isKeyDown(SDL_Scancode key);
+	bool isKeyUp(SDL_Scancode key);
+
 };
 
 #endif // !SE_INPUTHANDLER_H

@@ -20,7 +20,6 @@ void Particle::Integrator(strad delta)
 	velocity.addScaledVector(ResultingAcceleration, delta);
 	
 	velocity *= powf(drag, delta);
-	fprintf(stdout, "%f\n", velocity.y);
 	
 	this->ClearAccumulator();
 }

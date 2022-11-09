@@ -21,6 +21,9 @@ public:
 
 	strad getX() { return position.x; }
 	strad getY() { return position.y; }
+	strad getvX() { return velocity.x; }
+	strad getxY() { return velocity.y; }
+
 	strad getMass();
 
 	void SetPosition(strad x, strad y);

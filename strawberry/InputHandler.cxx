@@ -110,3 +110,19 @@ bool InputHandler::isKeyDown(SDL_Scancode key)
 	return false;
 }
 
+bool InputHandler::isKeyUp(SDL_Scancode key)
+{
+	if (keyStates != 0)
+	{
+		if (keyStates[key] == 1)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	return true;
+}
+
