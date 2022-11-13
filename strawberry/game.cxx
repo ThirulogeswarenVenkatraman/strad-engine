@@ -2,10 +2,9 @@
 
 #include "TextureManager.h"
 #include "InputHandler.h"
-#include "Timer.h"
 
-#define WINDOW_POS__X 1280
-#define WINDOW_POS__Y 720
+constexpr int WINDOW_POS__X{ 1280 };
+constexpr int WINDOW_POS__Y{ 720 };
 
 game* game::getInstance() {	
 	static game gameInst(WINDOW_POS__X, WINDOW_POS__Y);
@@ -59,8 +58,8 @@ void game::RunTheGame() {
 	this->Start();
 	while (this->isRunnning())
 	{
-		float DeltaTime = InSec() - previousTime;
-		previousTime = InSec();
+		float DeltaTime = (SDL_GetTicks() / 1000.0f) - previousTime;
+		previousTime = (SDL_GetTicks() / 1000.0f);
 		lag += DeltaTime;
 		InputHandler::getInstance()->EventUpdater();
 		while (lag >= FixedDeltaTime)

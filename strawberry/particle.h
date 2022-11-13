@@ -26,11 +26,11 @@ public:
 
 	strad getMass();
 
-	void SetPosition(strad x, strad y);
-	void SetVelocity(strad x, strad y);
-	void SetAcceleration(strad x, strad y);
+	Particle* SetPosition(strad x, strad y);
+	Particle* SetVelocity(strad x, strad y);
+	Particle* SetAcceleration(strad x, strad y);
 
-	void SetDamping(strad dampingFactor);
+	Particle* SetDamping(strad dampingFactor);
 	void SetMass(strad mass);
 
 	void ClearAccumulator() { ForceAccumulator.clear(); }

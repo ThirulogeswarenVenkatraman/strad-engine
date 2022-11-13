@@ -8,6 +8,7 @@
 enum class w_state { Idle, Run, Attack };
 
 class Animator {
+	int rFrame, cFrame;
 	bool anim_pause;
 	float animation_speed;
 	w_state Iactive;
@@ -16,15 +17,14 @@ class Animator {
 		float animation_speed;
 		int totalFrames;
 	};
-	int rFrame, cFrame, tFrame;
 	std::vector<character_states> c_state;
 public:
 	Animator();
 	~Animator();
 
-	std::string get_state_id() { return c_state.at((int)Iactive).state_id; }
-	int getRow() { return this->rFrame; }
-	int getColumn() { return this->cFrame; }
+	std::string get_state_id();
+	int getRow();
+	int getColumn();
 
 	void hold() { anim_pause = true; }
 	void release() { anim_pause = false; }
@@ -33,7 +33,7 @@ public:
 	void add_state(std::string state, int tFrames, float anim_speed);
 	void set_anim_state(w_state active_state);
 	/* full-sheet control */
-	void set_FramePos(int w_row, int w_column, float anim_speed = 100.0f);
+	void set_framepos(int w_row, int w_column, float anim_speed = 100.0f);
 
 	void update_animation();
 };

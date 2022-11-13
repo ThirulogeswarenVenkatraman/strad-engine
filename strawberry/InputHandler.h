@@ -29,4 +29,4 @@ public:
 
 };
 
-#endif // !SE_INPUTHANDLER_H
+#endif

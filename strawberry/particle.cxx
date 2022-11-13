@@ -25,27 +25,31 @@ void Particle::Integrator(strad delta)
 }
 
 
-void Particle::SetPosition(strad x, strad y)
+Particle* Particle::SetPosition(strad x, strad y)
 {
 	this->position.x = { x };
 	this->position.y = { y };
+	return this;
 }
 
-void Particle::SetVelocity(strad x, strad y)
+Particle* Particle::SetVelocity(strad x, strad y)
 {
 	this->velocity.x = { x };
 	this->velocity.y = { y };
+	return this;
 }
 
-void Particle::SetAcceleration(strad x, strad y)
+Particle* Particle::SetAcceleration(strad x, strad y)
 {
 	this->acceleration.x = { x };
 	this->acceleration.y = { y };
+	return this;
 }
 
-void Particle::SetDamping(strad dampingFactor)
+Particle* Particle::SetDamping(strad dampingFactor)
 {
 	this->drag = { dampingFactor };
+	return this;
 }
 
 void Particle::SetMass(strad mass)

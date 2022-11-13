@@ -2,7 +2,7 @@
 
 #include "game.h" /* renderer */
 
-#define tSIZE 3
+constexpr int c_size{ 2 };
 
 TextureManager* TextureManager::getInstance()
 {   
@@ -58,24 +58,29 @@ void TextureManager::Draw(std::string id, int x, int y, int width, int height, S
     DestRect.x = x;
     DestRect.y = y;
 
-    SrcRect.w = width; DestRect.w = width * tSIZE;
-    SrcRect.h = height; DestRect.h = height * tSIZE;
+    SrcRect.w = width; DestRect.w = width * c_size;
+    SrcRect.h = height; DestRect.h = height * c_size;
 
     SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
 }
 
 void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_RendererFlip eFlip)
 {
-    SDL_Rect SrcRect;
-    SDL_Rect DestRect;
+    static SDL_Rect SrcRect;
+    static SDL_Rect DestRect;
 
     SrcRect.x = width * currentFrame;
     SrcRect.y = height * (currentRow - 1);
     DestRect.x = x;
     DestRect.y = y;
 
-    SrcRect.w = width; DestRect.w = width * tSIZE;
-    SrcRect.h = height; DestRect.h = height * tSIZE;
+    SrcRect.w = width; DestRect.w = width * c_size;
+    SrcRect.h = height; DestRect.h = height * c_size;
 
     SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
+}
+
+void TextureManager::DrawTile(std::string id, SDL_Rect* srcRect, SDL_Rect* dstRect)
+{
+    SDL_RenderCopy(game::getInstance()->getRenderer(), qtextures[id], srcRect, dstRect);
 }

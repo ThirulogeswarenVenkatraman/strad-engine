@@ -2,7 +2,6 @@
 #define _GAME__H
 
 #include "SDL2/SDL.h"
-#include <memory>
 
 class game
 {
