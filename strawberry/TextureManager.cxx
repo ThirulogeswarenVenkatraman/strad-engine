@@ -2,7 +2,7 @@
 
 #include "game.h" /* renderer */
 
-constexpr int c_size{ 2 };
+constexpr float c_size{ 2.2 };
 
 TextureManager* TextureManager::getInstance()
 {   

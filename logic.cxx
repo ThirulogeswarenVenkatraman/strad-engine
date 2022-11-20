@@ -6,11 +6,11 @@
 #include "king.h"
 
 static King* king{ nullptr };
-static TileMap* myMap{ nullptr };
+static TileMap* mymap{ nullptr };
 void game::Start()
 {
 	king = { new King(0) };
-	myMap = new TileMap("assets/arena.tmx");
+	mymap = { new TileMap("assets/level_one.tmx") };
 }
 
 void game::Update(float dt) 
@@ -20,14 +20,14 @@ void game::Update(float dt)
 
 void game::Render() 
 {
-	myMap->draw_map();
+	mymap->draw_map();
 	king->RenderKing();
 }
 
 void game::FreeResrc()
 {
 	/* heap managers */
-	delete myMap;
+	delete mymap;
 	delete king;
 	delete ParticleForceRegistry::getInstance();
 	delete TextureManager::getInstance();

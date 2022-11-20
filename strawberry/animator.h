@@ -3,35 +3,33 @@
 
 #include "SDL2/SDL.h"
 #include <string>
-#include <vector>
-
-enum class w_state { Idle, Run, Attack };
+#include <map>
 
 class Animator {
-	int rFrame, cFrame;
 	bool anim_pause;
+	int rFrame, cFrame;
+	int internal_tframe;
 	float animation_speed;
-	w_state Iactive;
+	std::string c_state_id;
 	struct character_states {
-		std::string state_id;
-		float animation_speed;
 		int totalFrames;
+		float animation_speed;
 	};
-	std::vector<character_states> c_state;
+	std::map<std::string, character_states> c_state;
 public:
 	Animator();
 	~Animator();
 
-	std::string get_state_id();
 	int getRow();
 	int getColumn();
+	std::string get_state_id();
 
 	void hold() { anim_pause = true; }
 	void release() { anim_pause = false; }
 
 	/* sprite-sheet for single state */
-	void add_state(std::string state, int tFrames, float anim_speed);
-	void set_anim_state(w_state active_state);
+	void load_state(std::string filename, std::string state_id, character_states pstate);
+	void set_anim_state(std::string state_id);
 	/* full-sheet control */
 	void set_framepos(int w_row, int w_column, float anim_speed = 100.0f);
 

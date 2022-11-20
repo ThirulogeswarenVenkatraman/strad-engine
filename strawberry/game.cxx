@@ -3,11 +3,11 @@
 #include "TextureManager.h"
 #include "InputHandler.h"
 
-constexpr int WINDOW_POS__X{ 1280 };
-constexpr int WINDOW_POS__Y{ 720 };
+constexpr int WINDOW_SZ__X{ 14 * 32 * 2 };
+constexpr int WINDOW_SZ__Y{ 8 * 32 * 2 };
 
 game* game::getInstance() {	
-	static game gameInst(WINDOW_POS__X, WINDOW_POS__Y);
+	static game gameInst(WINDOW_SZ__X, WINDOW_SZ__Y);
 	return &gameInst;
 }
 

@@ -1,41 +1,35 @@
 #include "animator.h"
-
-static int internal_tframe;
+#include "TextureManager.h"
 
 Animator::Animator() : rFrame{ 1 }, cFrame{ 0 }, anim_pause { false } {
-	Iactive = w_state::Idle;
+	
 }
 
 Animator::~Animator() {
 	c_state.clear();
 }
 
-std::string Animator::get_state_id() {
-	return c_state.at((int)Iactive).state_id;
-}
-
 int Animator::getRow() { return this->rFrame; }
 int Animator::getColumn() { return this->cFrame; }
+std::string Animator::get_state_id() { return this->c_state_id; }
 
-void Animator::add_state(std::string state, int tFrames, float anim_speed)
+void Animator::load_state(std::string filename, std::string state_id, character_states pstate)
 {
-	character_states temp_c_state;
-	temp_c_state.state_id = state;
-	temp_c_state.animation_speed = anim_speed;
-	temp_c_state.totalFrames = tFrames;
-
-	c_state.push_back(temp_c_state);
+	TextureManager::getInstance()->Load(filename, state_id);
+	
+	c_state[state_id] = pstate;
 }
 
-void Animator::set_anim_state(w_state active_state) {
-	Iactive = { active_state };
-	internal_tframe = c_state.at((int)Iactive).totalFrames;
-	this->animation_speed = c_state.at((int)Iactive).animation_speed;
+void Animator::set_anim_state(std::string state_id) {
+	this->c_state_id = state_id;
+
+	this->internal_tframe = c_state[state_id].totalFrames;
+	this->animation_speed = c_state[state_id].animation_speed;
 }
 
 void Animator::set_framepos(int w_row, int w_column, float anim_speed) {
 	this->rFrame = w_row;
-	internal_tframe = w_column;
+	this->internal_tframe = w_column;
 	this->animation_speed = anim_speed;
 }
 

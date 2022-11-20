@@ -4,7 +4,7 @@
 #include <tinyxml2.h>
 using namespace tinyxml2;
 
-constexpr float MAP_SIZE{ 1.5 };
+constexpr float MAP_SIZE{ 2 };
 
 TileMap::TileMap(std::string filename)
 {
@@ -14,18 +14,21 @@ TileMap::TileMap(std::string filename)
 TileMap::~TileMap()
 {
 	m_gid.clear();
-	m_destination.clear();
 	t_source.clear();
-
+	t_destination.clear();
 }
 
 void TileMap::draw_map()
 {
-	for (size_t i = 0; i < (m_size.x * m_size.y); i++) {
-		TextureManager::getInstance()->DrawTile(t_source[m_gid[i]].tileset_id,
-			&t_source[m_gid[i]].src_rects,
-			&m_destination[i]);
+	static int gid_counter{ 0 };
+	static size_t i, l;
+	for (i = { 0 }, l = { 0 }; i < ((m_size.x * m_size.y) * no_of_layers); i++, l++, gid_counter++) {
+		if (l >= m_size.x * m_size.y) { l = 0; }
+		TextureManager::getInstance()->DrawTile(t_source[m_gid[gid_counter]].tileset_id,
+			&t_source[m_gid[gid_counter]].src_rects,
+			&t_destination[l]);
 	}
+	gid_counter = { 0 };
 }
 
 void TileMap::load_map(const char* fname)
@@ -34,6 +37,7 @@ void TileMap::load_map(const char* fname)
 	XMLError errn = doc.LoadFile(fname);
 	if (errn != XML_SUCCESS) {
 		doc.PrintError();
+		return;
 	}
 
 	XMLElement* mNode = doc.FirstChildElement("map");
@@ -47,39 +51,38 @@ void TileMap::load_map(const char* fname)
 	XMLElement* mTileset = mNode->FirstChildElement("tileset");
 	if (mTileset != nullptr) {
 		while (mTileset) {
-
+			static int i;
 			std::string tileset_id(mTileset->Attribute("name"));
 			std::string srcname(mTileset->FirstChildElement("image")->Attribute("source"));
 			std::string fullpath("assets/");
 			fullpath.append(srcname);
-
+			int tilewidth{ 0 }, tileheight{ 0 }, tileCount{ 0 };
+			int w_size{ 0 }, h_size{ 0 };
 			TextureManager::getInstance()->Load(fullpath, tileset_id);
 			/* getting specific tileset properties */
-			mTileset->QueryIntAttribute("tilewidth", &m_tileset.tilewidth);
-			mTileset->QueryIntAttribute("tileheight", &m_tileset.tileheight);
-			mTileset->QueryIntAttribute("tilecount", &m_tileset.tileCount);
-			mTileset->FirstChildElement("image")->QueryIntAttribute("width", &m_tileset.w_size);
-			mTileset->FirstChildElement("image")->QueryIntAttribute("height", &m_tileset.h_size);
+			mTileset->QueryIntAttribute("tilewidth", &tilewidth);
+			mTileset->QueryIntAttribute("tileheight", &tileheight);
+			mTileset->QueryIntAttribute("tilecount", &tileCount);
+			mTileset->FirstChildElement("image")->QueryIntAttribute("width", &w_size);
+			mTileset->FirstChildElement("image")->QueryIntAttribute("height", &h_size);
 
-			for (int i{ 0 }; i < m_tileset.tileCount; i++) {
-				static SDL_Rect temp_src;
-				temp_src.x = (i * m_tileset.tilewidth) % m_tileset.w_size;
-				temp_src.w = m_tileset.tilewidth;
-				temp_src.h = m_tileset.tileheight;
+			SDL_Rect temp_src{ 0, 0, 0, 0 };
+			for (int t { 0 }; t < tileCount; t++, i++) {
+				temp_src.x = (t * tilewidth) % w_size;
+				temp_src.w = tilewidth;
+				temp_src.h = tileheight;
 
 				t_source[i + 1].tileset_id = tileset_id;
 				t_source[i + 1].src_rects = temp_src;
-				if (temp_src.x == (m_tileset.w_size - m_tileset.tilewidth)) {
-					temp_src.y += m_tileset.tileheight;
+				if (temp_src.x == (w_size - tilewidth)) {
+					temp_src.y += tileheight;
 				}
 
 			}
-
-			m_tileset.clear();
 			mTileset = mTileset->NextSiblingElement("tileset");
 		}
 	}
-
+	size_t nfL{ 0 }; int temp_gid{ 0 };
 	XMLElement* mLayer = mNode->FirstChildElement("layer");
 	if (mLayer != nullptr) {
 		while (mLayer) {
@@ -93,7 +96,6 @@ void TileMap::load_map(const char* fname)
 								m_gid.push_back(0);
 							}
 							else {
-								static int temp_gid;
 								mTile->QueryIntAttribute("gid", &temp_gid);
 								m_gid.push_back(temp_gid);
 							}
@@ -105,11 +107,11 @@ void TileMap::load_map(const char* fname)
 					mData = mData->NextSiblingElement("data");
 				}
 			}
+			nfL++;
+			this->no_of_layers = nfL;
 			mLayer = mLayer->NextSiblingElement("layer");
 		}
 	}
-
-	std::cout << "gid size: " << m_gid.size() << "\ndest size: " << m_destination.size() << "\n";
 }
 
 void TileMap::calculate_destination_rects()
@@ -122,7 +124,7 @@ void TileMap::calculate_destination_rects()
 			temp_dst_rect.w = m_size.mWidth * MAP_SIZE;
 			temp_dst_rect.h = m_size.mHeight * MAP_SIZE;
 			
-			this->m_destination.push_back(temp_dst_rect);
+			this->t_destination.push_back(temp_dst_rect);
 		}
 	}
 }
