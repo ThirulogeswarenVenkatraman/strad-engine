@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.20.0)
 project(strad-engine LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-set(StradSrc main.cxx logic.cxx king.cxx
+set(StradSrc 
 strawberry/game.cxx 
 strawberry/InputHandler.cxx 
 strawberry/TextureManager.cxx
@@ -17,11 +17,14 @@ strawberry/particle.cxx
 strawberry/pfGenerator.cxx
 )
 
+set(mainline main.cxx # cpp files if any
+)
+
 if(WIN32 AND MSVC)
 	find_package(SDL2 CONFIG REQUIRED)
     find_package(SDL2_image CONFIG REQUIRED)
 	find_package(tinyxml2 CONFIG REQUIRED)
-	add_executable(${CMAKE_PROJECT_NAME} ${StradSrc})
+	add_executable(${CMAKE_PROJECT_NAME} ${StradSrc} ${mainline})
 
 	target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image)
     target_link_libraries(${PROJECT_NAME} PRIVATE tinyxml2::tinyxml2)

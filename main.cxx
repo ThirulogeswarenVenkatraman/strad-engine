@@ -5,3 +5,20 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
+#include "strawberry.h"
+
+void game::Start() {
+
+}
+
+void game::Update(float dt) {
+
+}
+
+void game::Render() {
+
+}
+
+void game::FreeResrc() {
+
+}
