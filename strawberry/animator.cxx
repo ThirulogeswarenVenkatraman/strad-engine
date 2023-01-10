@@ -1,7 +1,7 @@
 #include "animator.h"
 #include "TextureManager.h"
 
-Animator::Animator() : rFrame{ 1 }, cFrame{ 0 }, anim_pause { false } {
+Animator::Animator() : CurrentColumnX{ 0 }, isPaused{ false } {
 	_timer.start();
 }
 
@@ -28,7 +28,7 @@ void Animator::setState(std::string state_id) {
 }
 
 void Animator::update_animation() {
-	if (!anim_pause) {
+	if (!isPaused) {
 		_timer.unpause();
 	}
 	else {

@@ -1,11 +1,7 @@
 #include "strawberry/game.h"
 
-int main(int argc, char* argv[]) {
-	game::getInstance()->RunTheGame();
-	return 0;
-}
-
-#include "strawberry.h"
+int window_size_x{ 1280 };
+int window_size_y{ 720 };
 
 void game::Start() {
 

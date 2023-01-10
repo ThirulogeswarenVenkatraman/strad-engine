@@ -1,12 +1,11 @@
 #ifndef _ANIMATOR_H
 #define _ANIMATOR_H
 
-#include "SDL2/SDL.h"
 #include "Timer.h"
 #include <string>
 #include <map>
 
-typedef struct {
+typedef struct sheet_properties {
 	int totalFrames;
 	float animation_speed;
 }sheet_properties;
