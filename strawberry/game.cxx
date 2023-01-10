@@ -3,8 +3,8 @@
 #include "TextureManager.h"
 #include "InputHandler.h"
 
-constexpr int WINDOW_SZ__X{ 14 * 32 * 2 };
-constexpr int WINDOW_SZ__Y{ 8 * 32 * 2 };
+constexpr int WINDOW_SZ__X{ 990 };
+constexpr int WINDOW_SZ__Y{ 590 };
 
 game* game::getInstance() {	
 	static game gameInst(WINDOW_SZ__X, WINDOW_SZ__Y);
@@ -71,6 +71,7 @@ void game::RunTheGame() {
 			lag -= FixedDeltaTime;
 		}
 		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(renderer, 216, 167, 118, 255);
 		this->Render();
 		SDL_RenderPresent(renderer);
 	}

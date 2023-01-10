@@ -2,7 +2,7 @@
 
 #include "game.h" /* renderer */
 
-constexpr float c_size{ 2.2 };
+constexpr float c_size{ 5 };
 
 TextureManager* TextureManager::getInstance()
 {   
@@ -64,7 +64,7 @@ void TextureManager::Draw(std::string id, int x, int y, int width, int height, S
     SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
 }
 
-void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_RendererFlip eFlip)
+void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, double angle, SDL_RendererFlip eFlip)
 {
     static SDL_Rect SrcRect;
     static SDL_Rect DestRect;
@@ -77,7 +77,7 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     SrcRect.w = width; DestRect.w = width * c_size;
     SrcRect.h = height; DestRect.h = height * c_size;
 
-    SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, 0, 0, eFlip);
+    SDL_RenderCopyEx(game::getInstance()->getRenderer(), qtextures[id], &SrcRect, &DestRect, angle, NULL, eFlip);
 }
 
 void TextureManager::DrawTile(std::string id, SDL_Rect* srcRect, SDL_Rect* dstRect)

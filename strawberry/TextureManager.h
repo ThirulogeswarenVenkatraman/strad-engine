@@ -20,7 +20,8 @@ public:
 	bool Load(std::string fileName, std::string id);
 
 	void Draw(std::string id, int x, int y, int width, int height, SDL_RendererFlip eFlip = SDL_RendererFlip::SDL_FLIP_NONE);
-	void DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_RendererFlip eFlip = SDL_RendererFlip::SDL_FLIP_NONE);
+	void DrawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, 
+	double angle = 0.0, SDL_RendererFlip eFlip = SDL_RendererFlip::SDL_FLIP_NONE);
 
 	void DrawTile(std::string id, SDL_Rect* srcRect, SDL_Rect* dstRect);
 };

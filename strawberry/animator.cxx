@@ -2,39 +2,37 @@
 #include "TextureManager.h"
 
 Animator::Animator() : rFrame{ 1 }, cFrame{ 0 }, anim_pause { false } {
-	
+	_timer.start();
 }
 
 Animator::~Animator() {
-	c_state.clear();
+	spritesheets.clear();
 }
 
-int Animator::getRow() { return this->rFrame; }
-int Animator::getColumn() { return this->cFrame; }
-std::string Animator::get_state_id() { return this->c_state_id; }
-
-void Animator::load_state(std::string filename, std::string state_id, character_states pstate)
+void Animator::loadState(std::string filename, std::string state_id, sheet_properties properties)
 {
 	TextureManager::getInstance()->Load(filename, state_id);
-	
-	c_state[state_id] = pstate;
+	spritesheets[state_id] = properties;
 }
 
-void Animator::set_anim_state(std::string state_id) {
-	this->c_state_id = state_id;
-
-	this->internal_tframe = c_state[state_id].totalFrames;
-	this->animation_speed = c_state[state_id].animation_speed;
-}
-
-void Animator::set_framepos(int w_row, int w_column, float anim_speed) {
-	this->rFrame = w_row;
-	this->internal_tframe = w_column;
-	this->animation_speed = anim_speed;
+void Animator::setState(std::string state_id) {
+	static bool once{ false };
+	this->CurrentSheetID = state_id;
+	this->in_totalframe = spritesheets[state_id].totalFrames;
+	this->in_animationspeed = spritesheets[state_id].animation_speed;
+	if(!once){
+		_timer.stop();
+		_timer.start();
+		once = { true };
+	}
 }
 
 void Animator::update_animation() {
 	if (!anim_pause) {
-		cFrame = (((int)(SDL_GetTicks() / this->animation_speed)) % internal_tframe);
+		_timer.unpause();
 	}
+	else {
+		_timer.pause();
+	}
+	this->CurrentColumnX = (((int)(_timer.getTicks() / this->in_animationspeed)) % this->in_totalframe);
 }
